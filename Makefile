@@ -2,6 +2,11 @@
 # Development (Локальная разработка)
 # -----------------------------------------------------------------------------
 
+.PHONY: ci-build-dev
+rebuild:
+	@echo "🔄 Пересборка без кэша..."
+	docker compose build
+
 .PHONY: up
 up:
 	@echo "🚀 Запускаем в режиме DEV (с hot-reload)..."
@@ -37,6 +42,11 @@ shell-two:
 prod:
 	@echo "🏭 Запускаем в режиме PROD (daemon mode)..."
 	docker compose -f docker-compose.yaml up --build -d
+
+.PHONY: ci-build-prod
+ci-build:
+	@echo "🤖 CI: build docker images"
+	docker compose -f docker-compose.yaml build
 
 .PHONY: prod-logs
 prod-logs:
