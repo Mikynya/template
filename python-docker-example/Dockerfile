@@ -32,7 +32,7 @@ COPY --chown=appuser:appuser . .
 USER appuser
 
 # Порт и команда запуска передаются через ARG
-ARG APP_PORT=8000
+ARG APP_PORT=8001
 ARG APP_MODULE=app:app
 ENV APP_PORT=${APP_PORT}
 ENV APP_MODULE=${APP_MODULE}

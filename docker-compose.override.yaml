@@ -1,14 +1,17 @@
-#https://github.com/docker/awesome-compose
+# https://github.com/docker/awesome-compose
+# Override для локальной разработки (автоматически применяется при `docker compose up`)
 services:
   web_server_one:
-    command: ["python", "-m","uvicorn", "buff:app","--host=0.0.0.0","--port=8000","--reload","--reload-dir", "/app"]
+    command: ["python", "-m", "uvicorn", "buff:app", "--host=0.0.0.0", "--port=${BUFFER_PORT:-8000}", "--reload", "--reload-dir", "/app"]
     volumes:
       - ./bufferization:/app
-    # В режиме разработки часто удобнее работать от рута, 
+    # В режиме разработки часто удобнее работать от root,
     # чтобы не было ошибок Permission Denied при создании файлов кодом
     user: root
+    # Отключаем healthcheck в dev режиме для быстрого старта
+
   web_server_two:
-    command: ["python", "-m","uvicorn", "app:app","--host=0.0.0.0","--port=8001","--reload","--reload-dir", "/app"]
+    command: ["python", "-m", "uvicorn", "app:app", "--host=0.0.0.0", "--port=${APP_PORT:-8001}", "--reload", "--reload-dir", "/app"]
     volumes:
       - ./python-docker-example:/app
     user: root

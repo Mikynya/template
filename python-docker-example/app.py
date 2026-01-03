@@ -1,7 +1,13 @@
 from fastapi import FastAPI
-import os
-app = FastAPI()
+
+app = FastAPI(
+    title="App Service",
+    description="Second service example",
+    version="1.0.0"
+)
+
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Hello World", "service": "web_server_two"}
+
