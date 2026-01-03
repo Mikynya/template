@@ -3,7 +3,7 @@
 # -----------------------------------------------------------------------------
 
 .PHONY: ci-build-dev
-rebuild:
+ci-build-dev:
 	@echo "🔄 Пересборка без кэша..."
 	docker compose build
 
@@ -44,7 +44,7 @@ prod:
 	docker compose -f docker-compose.yaml up --build -d
 
 .PHONY: ci-build-prod
-ci-build:
+ci-build-prod:
 	@echo "🤖 CI: build docker images"
 	docker compose -f docker-compose.yaml build
 
