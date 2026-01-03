@@ -31,3 +31,34 @@ jobs:
       run: make ci-build-prod
     - name: build_dev up
       run: make prod
+
+  push:
+    runs-on: ubuntu-latest
+    needs: build_prod
+
+    steps:
+      # 1. Клонируем код репозитория на runner
+      - uses: actions/checkout@v4
+
+      # 2. (Опционально, но рекомендовано) Настраиваем Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 3. Логинимся в Docker Hub, используя секреты из настроек GitHub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_NAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      # 4. Собираем PROD-образы, используя ваши Makefile-команды
+      - name: Build PROD images
+        run: make ci-build-prod
+
+      # 5. Публикуем (пушим) образы в реестр
+      - name: Push to Docker Hub
+        run: |
+          docker tag docker_test/buffer:prod ${{ secrets.DOCKER_NAME }}/buffer:latest
+          docker tag docker_test/app:prod ${{ secrets.DOCKER_NAME }}/app:latest
+          docker push ${{ secrets.DOCKER_NAME }}/buffer:latest
+          docker push ${{ secrets.DOCKER_NAME }}/app:latest
