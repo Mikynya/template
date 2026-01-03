@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+
 app = FastAPI(
     title="Buffer Service",
     description="First service example for bufferization",
