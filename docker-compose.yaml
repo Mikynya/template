@@ -1,0 +1,24 @@
+
+#https://github.com/docker/awesome-compose
+services:
+  web_server_one:
+    build:
+      context: ./bufferization
+      dockerfile: Dockerfile
+    # В проде лучше задавать имя образа явно
+    image: docker_test/buffer:prod
+    ports:
+      - 8000:8000
+      
+    restart: always
+  web_server_two:
+    build:
+      context: ./python-docker-example
+      dockerfile: Dockerfile copy
+    image: docker_test/app:prod
+    ports:
+      - 8001:8001
+    depends_on:
+      - web_server_one
+    volumes:
+      - ./volume_data:/app/model

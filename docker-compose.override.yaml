@@ -1,0 +1,14 @@
+#https://github.com/docker/awesome-compose
+services:
+  web_server_one:
+    command: ["python", "-m","uvicorn", "buff:app","--host=0.0.0.0","--port=8000","--reload","--reload-dir", "/app"]
+    volumes:
+      - ./bufferization:/app
+    # В режиме разработки часто удобнее работать от рута, 
+    # чтобы не было ошибок Permission Denied при создании файлов кодом
+    user: root
+  web_server_two:
+    command: ["python", "-m","uvicorn", "app:app","--host=0.0.0.0","--port=8001","--reload","--reload-dir", "/app"]
+    volumes:
+      - ./python-docker-example:/app
+    user: root
